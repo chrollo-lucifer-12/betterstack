@@ -94,6 +94,23 @@ export const websites = pgTable("websites", {
   url: varchar("url").unique().notNull(),
 });
 
+export const websiteToUser = pgTable(
+  "websites_to_user",
+  {
+    websiteId: uuid("website_id")
+      .references(() => websites.id)
+      .notNull(),
+    userId: uuid("user_id")
+      .references(() => users.id)
+      .notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({
+      columns: [table.websiteId, table.userId],
+    }),
+  }),
+);
+
 export const regions = pgTable("regions", {
   ...id,
   ...timestamps,

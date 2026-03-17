@@ -6,10 +6,12 @@ import {
   users,
   websites,
   websiteTicks,
+  websiteToUser,
 } from "./schema";
 
-export const websiteRelations = relations(websites, ({ many }) => ({
+export const websiteRelations = relations(websites, ({ many, one }) => ({
   websiteTicks: many(websiteTicks),
+  userLinks: many(websiteToUser),
 }));
 
 export const regionRelations = relations(regions, ({ many }) => ({
@@ -30,4 +32,17 @@ export const websiteTicksRelations = relations(websiteTicks, ({ one }) => ({
 export const userRelations = relations(users, ({ many }) => ({
   sessions: many(sessions),
   accounts: many(accounts),
+  websiteLinks: many(websiteToUser),
+}));
+
+export const websiteToUserRelations = relations(websiteToUser, ({ one }) => ({
+  website: one(websites, {
+    fields: [websiteToUser.websiteId],
+    references: [websites.id],
+  }),
+
+  user: one(users, {
+    fields: [websiteToUser.userId],
+    references: [users.id],
+  }),
 }));
