@@ -1,7 +1,10 @@
 import {
+  boolean,
   integer,
   pgEnum,
   pgTable,
+  primaryKey,
+  text,
   timestamp,
   uuid,
   varchar,
@@ -17,6 +20,73 @@ const id = {
 };
 
 export const statusEnum = pgEnum("status", ["UP", "DOWN", "UNKNOWN"]);
+
+export const users = pgTable("users", {
+  id: uuid("id").primaryKey().defaultRandom(),
+
+  name: text("name"),
+  email: text("email").notNull().unique(),
+  emailVerified: boolean("email_verified").default(false),
+
+  image: text("image"),
+});
+
+export const sessions = pgTable("sessions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+
+  token: text("token").notNull().unique(),
+
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+
+export const accounts = pgTable(
+  "accounts",
+  {
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+
+    provider: text("provider").notNull(),
+    providerAccountId: text("provider_account_id").notNull(),
+
+    accessToken: text("access_token"),
+    refreshToken: text("refresh_token"),
+    expiresAt: timestamp("expires_at", { withTimezone: true }),
+
+    tokenType: text("token_type"),
+    scope: text("scope"),
+
+    idToken: text("id_token"),
+    sessionState: text("session_state"),
+  },
+  (table) => ({
+    pk: primaryKey({
+      columns: [table.provider, table.providerAccountId],
+    }),
+  }),
+);
+
+export const verificationTokens = pgTable(
+  "verification_tokens",
+  {
+    identifier: text("identifier").notNull(),
+    token: text("token").notNull(),
+    expires: timestamp("expires", { withTimezone: true }).notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({
+      columns: [table.identifier, table.token],
+    }),
+  }),
+);
 
 export const websites = pgTable("websites", {
   ...id,

@@ -1,6 +1,5 @@
 {
-  "name": "db",
-  "module": "index.ts",
+  "name": "@repo/db",
   "type": "module",
   "private": true,
   "scripts": {
@@ -9,7 +8,8 @@
     "db:migrate": "drizzle-kit migrate"
   },
   "exports": {
-    "./db": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./schema": "./src/db/schema.ts"
   },
   "devDependencies": {
     "@repo/typescript-config": "*",
@@ -24,6 +24,8 @@
   "dependencies": {
     "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",
-    "pg": "^8.20.0"
+    "drizzle-zod": "^0.8.3",
+    "pg": "^8.20.0",
+    "zod": "^4.3.6"
   }
 }
