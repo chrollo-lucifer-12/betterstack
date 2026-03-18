@@ -5,7 +5,8 @@
   "scripts": {
     "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "db:reset": "drizzle-kit push --force"
   },
   "exports": {
     ".": "./src/index.ts",
@@ -24,6 +25,7 @@
   "dependencies": {
     "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",
+    "drizzle-seed": "^0.3.1",
     "drizzle-zod": "^0.8.3",
     "pg": "^8.20.0",
     "zod": "^4.3.6"

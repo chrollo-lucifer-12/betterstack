@@ -9,6 +9,7 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
+import * as t from "drizzle-orm/pg-core";
 
 const timestamps = {
   updated_at: timestamp().defaultNow().notNull(),
@@ -22,72 +23,82 @@ const id = {
 export const statusEnum = pgEnum("status", ["UP", "DOWN", "UNKNOWN"]);
 
 export const users = pgTable("users", {
-  id: uuid("id").primaryKey().defaultRandom(),
-
-  name: text("name"),
-  email: text("email").notNull().unique(),
-  emailVerified: boolean("email_verified").default(false),
-
-  image: text("image"),
-});
-
-export const sessions = pgTable("sessions", {
-  id: uuid("id").primaryKey().defaultRandom(),
-
-  userId: uuid("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-
-  token: text("token").notNull().unique(),
-
-  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
-
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .defaultNow()
+  id: t.text("id").primaryKey(),
+  name: t.text("name").notNull(),
+  email: t.varchar("email", { length: 255 }).notNull().unique(),
+  emailVerified: t.boolean("email_verified").notNull(),
+  image: t.text("image"),
+  createdAt: t
+    .timestamp("created_at", { precision: 6, withTimezone: true })
+    .notNull(),
+  updatedAt: t
+    .timestamp("updated_at", { precision: 6, withTimezone: true })
     .notNull(),
 });
 
-export const accounts = pgTable(
-  "accounts",
-  {
-    userId: uuid("user_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+export const sessions = pgTable("sessions", {
+  id: t.text("id").primaryKey(),
+  userId: t
+    .text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  token: t.varchar("token", { length: 255 }).notNull().unique(),
+  expiresAt: t
+    .timestamp("expires_at", { precision: 6, withTimezone: true })
+    .notNull(),
+  ipAddress: t.text("ip_address"),
+  userAgent: t.text("user_agent"),
+  createdAt: t
+    .timestamp("created_at", { precision: 6, withTimezone: true })
+    .notNull(),
+  updatedAt: t
+    .timestamp("updated_at", { precision: 6, withTimezone: true })
+    .notNull(),
+});
 
-    provider: text("provider").notNull(),
-    providerAccountId: text("provider_account_id").notNull(),
-
-    accessToken: text("access_token"),
-    refreshToken: text("refresh_token"),
-    expiresAt: timestamp("expires_at", { withTimezone: true }),
-
-    tokenType: text("token_type"),
-    scope: text("scope"),
-
-    idToken: text("id_token"),
-    sessionState: text("session_state"),
-  },
-  (table) => ({
-    pk: primaryKey({
-      columns: [table.provider, table.providerAccountId],
-    }),
+export const accounts = pgTable("accounts", {
+  id: t.text("id").primaryKey(),
+  userId: t
+    .text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  accountId: t.text("account_id").notNull(),
+  providerId: t.text("provider_id").notNull(),
+  accessToken: t.text("access_token"),
+  refreshToken: t.text("refresh_token"),
+  accessTokenExpiresAt: t.timestamp("access_token_expires_at", {
+    precision: 6,
+    withTimezone: true,
   }),
-);
-
-export const verificationTokens = pgTable(
-  "verification_tokens",
-  {
-    identifier: text("identifier").notNull(),
-    token: text("token").notNull(),
-    expires: timestamp("expires", { withTimezone: true }).notNull(),
-  },
-  (table) => ({
-    pk: primaryKey({
-      columns: [table.identifier, table.token],
-    }),
+  refreshTokenExpiresAt: t.timestamp("refresh_token_expires_at", {
+    precision: 6,
+    withTimezone: true,
   }),
-);
+  scope: t.text("scope"),
+  idToken: t.text("id_token"),
+  password: t.text("password"),
+  createdAt: t
+    .timestamp("created_at", { precision: 6, withTimezone: true })
+    .notNull(),
+  updatedAt: t
+    .timestamp("updated_at", { precision: 6, withTimezone: true })
+    .notNull(),
+});
 
+export const verifications = pgTable("verifications", {
+  id: t.text("id").primaryKey(),
+  identifier: t.text("identifier").notNull(),
+  value: t.text("value").notNull(),
+  expiresAt: t
+    .timestamp("expires_at", { precision: 6, withTimezone: true })
+    .notNull(),
+  createdAt: t
+    .timestamp("created_at", { precision: 6, withTimezone: true })
+    .notNull(),
+  updatedAt: t
+    .timestamp("updated_at", { precision: 6, withTimezone: true })
+    .notNull(),
+});
 export const websites = pgTable("websites", {
   ...id,
   ...timestamps,
@@ -100,7 +111,7 @@ export const websiteToUser = pgTable(
     websiteId: uuid("website_id")
       .references(() => websites.id)
       .notNull(),
-    userId: uuid("user_id")
+    userId: text("user_id")
       .references(() => users.id)
       .notNull(),
   },

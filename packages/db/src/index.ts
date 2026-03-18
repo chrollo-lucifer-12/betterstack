@@ -7,14 +7,14 @@ import {
   createUpdateSchema,
 } from "drizzle-zod";
 import { regions, statusEnum, websites, websiteTicks } from "./db/schema";
-
+import * as schema from "./db/schema";
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
 export * from "drizzle-orm";
 
-export const db = drizzle(pool);
+export const db = drizzle(pool, { schema });
 
 export const websiteSelectSchema = createSelectSchema(websites);
 export const regionSelectSchema = createSelectSchema(regions);

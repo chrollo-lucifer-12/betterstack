@@ -1,8 +1,0 @@
-CREATE TABLE "websites_to_user" (
-	"website_id" uuid NOT NULL,
-	"user_id" uuid NOT NULL,
-	CONSTRAINT "websites_to_user_website_id_user_id_pk" PRIMARY KEY("website_id","user_id")
-);
---> statement-breakpoint
-ALTER TABLE "websites_to_user" ADD CONSTRAINT "websites_to_user_website_id_websites_id_fk" FOREIGN KEY ("website_id") REFERENCES "public"."websites"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "websites_to_user" ADD CONSTRAINT "websites_to_user_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
