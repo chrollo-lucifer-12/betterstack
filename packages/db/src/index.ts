@@ -9,3 +9,5 @@ const pool = new Pool({
 export * from "drizzle-orm";
 
 export const db = drizzle(pool, { schema });
+
+export const mockDB = drizzle.mock({ schema });

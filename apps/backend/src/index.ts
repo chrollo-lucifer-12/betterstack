@@ -4,7 +4,7 @@ import swagger from "@elysiajs/swagger";
 import { cors } from "@elysiajs/cors";
 import { websiteController } from "./modules/website";
 
-const app = new Elysia()
+export const app = new Elysia()
   .use(
     cors({
       origin: "*",
