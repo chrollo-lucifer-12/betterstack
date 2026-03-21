@@ -1,5 +1,6 @@
 import * as brevo from "@getbrevo/brevo";
+import { env } from "./env";
 
 export const brevoInstance = new brevo.BrevoClient({
-  apiKey: process.env.BREVO_API_KEY ?? "",
+  apiKey: env.BREVO_API_KEY,
 });

@@ -3,6 +3,7 @@ import { authController } from "./modules/auth";
 import swagger from "@elysiajs/swagger";
 import { cors } from "@elysiajs/cors";
 import { websiteController } from "./modules/website";
+import { env } from "./lib/env";
 
 export const app = new Elysia()
   .use(
@@ -15,7 +16,7 @@ export const app = new Elysia()
   .use(swagger())
   .use(authController)
   .use(websiteController)
-  .listen(process.env.PORT!);
+  .listen(env.PORT);
 
 console.log(app.routes.map((r) => r.path));
 
