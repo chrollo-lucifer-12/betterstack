@@ -1,0 +1,17 @@
+{
+  "name": "producer",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@repo/typescript-config": "*",
+    "@repo/db": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
