@@ -15,8 +15,7 @@ const app = new Elysia()
   )
   .use(swagger())
   .use(authController)
-  .use(websiteController)
-  .listen(env.PORT);
+  .use(websiteController);
 
 console.log(app.routes.map((r) => r.path));
 
