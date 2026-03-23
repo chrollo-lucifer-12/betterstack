@@ -1,6 +1,5 @@
 import { Elysia, t } from "elysia";
 import { authController } from "./modules/auth";
-import swagger from "@elysiajs/swagger";
 import { cors } from "@elysiajs/cors";
 import { websiteController } from "./modules/website";
 import { env } from "./lib/env";
@@ -13,12 +12,7 @@ const app = new Elysia()
       allowedHeaders: ["Content-Type", "Authorization"],
     }),
   )
-  .use(swagger())
   .use(authController)
   .use(websiteController);
-
-console.log(app.routes.map((r) => r.path));
-
-console.log(`Server running on ${app.server?.hostname}:${app.server?.port}`);
 
 export default app;
