@@ -1,0 +1,14 @@
+{
+  "name": "queue-worker",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@repo/typescript-config": "*",
+    "@repo/db": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

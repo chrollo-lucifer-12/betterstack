@@ -1,9 +1,10 @@
 import { RedisClient } from "bun";
 import { db, eq } from "@repo/db";
-import { regions, websiteTicks } from "@repo/db/schema";
+import { regions } from "@repo/db/schema";
 
 type RedisStream = Record<string, [string, string[]][]>;
 const region = process.env.REGION!;
+const worker = `${region}-${crypto.randomUUID()}`;
 
 let [regionRow] = await db
   .select({ id: regions.id })
@@ -40,13 +41,16 @@ const getStatusAndInsert = async (
 
   console.log(url, status);
 
-  await db.insert(websiteTicks).values({
-    regionId: regionRow.id,
-    websiteId,
-    created_at: new Date(Number(timestamp)),
-    status,
-    responseTimeMs: Math.round(responseTime),
-  });
+  await client.rpush(
+    "betterstack:websites:results",
+    JSON.stringify({
+      regionId: regionRow.id,
+      websiteId,
+      created_at: new Date(Number(timestamp)),
+      status,
+      responseTimeMs: Math.round(responseTime),
+    }),
+  );
 };
 
 async function main() {
@@ -54,7 +58,7 @@ async function main() {
   const res = (await client.send("xreadgroup", [
     "group",
     region,
-    "india-1",
+    worker,
     "count",
     "10",
     "streams",
