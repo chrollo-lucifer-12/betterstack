@@ -60,6 +60,7 @@
     "apps/worker": {
       "name": "worker",
       "devDependencies": {
+        "@repo/db": "*",
         "@repo/typescript-config": "*",
         "@types/bun": "latest",
       },

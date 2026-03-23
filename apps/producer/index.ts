@@ -10,6 +10,7 @@ async function startRedis() {
   const res = await client.send("xadd", [
     "betterstack:websites",
     "*",
+    "websites",
     JSON.stringify(
       allWebsites.map((w) => {
         return {
