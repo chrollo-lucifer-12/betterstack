@@ -5,7 +5,7 @@ import { cors } from "@elysiajs/cors";
 import { websiteController } from "./modules/website";
 import { env } from "./lib/env";
 
-export const app = new Elysia()
+const app = new Elysia()
   .use(
     cors({
       origin: "*",
@@ -21,3 +21,5 @@ export const app = new Elysia()
 console.log(app.routes.map((r) => r.path));
 
 console.log(`Server running on ${app.server?.hostname}:${app.server?.port}`);
+
+export default app;
