@@ -1,5 +1,6 @@
 {
   "name": "backend",
+  "type": "module",
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,6 +20,5 @@
     "@repo/typescript-config": "*",
     "@repo/db": "*",
     "@repo/mail": "*"
-  },
-  "module": "src/index.js"
+  }
 }
