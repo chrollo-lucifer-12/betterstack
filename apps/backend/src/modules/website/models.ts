@@ -36,8 +36,8 @@ export const websiteModel = {
   }),
   getStatusQuery: t.Object({
     region: t.String(),
-    startTime: t.Optional(t.Date()),
-    endTime: t.Optional(t.Date()),
+    startTime: t.Optional(t.String()),
+    endTime: t.Optional(t.String()),
   }),
   getStatusInvalid: t.Literal("Internal Server Error"),
 } as const;

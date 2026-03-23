@@ -33,8 +33,8 @@ export const websiteController = new Elysia({
       const { error, result } = await getWebsiteStatus(
         websiteId,
         region,
-        startTime,
-        endTime,
+        new Date(startTime!),
+        new Date(endTime!),
       );
       if (error) {
         throw status(500, "Internal Server Error");
