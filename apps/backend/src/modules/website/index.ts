@@ -5,13 +5,7 @@ import {
   deleteWebsite,
   getWebsiteStatus,
 } from "./services";
-import {
-  CreateWebsiteBody,
-  DeleteWebsiteParams,
-  GetStatusParams,
-  GetStatusQuery,
-  websiteModel,
-} from "./models";
+import { websiteModel } from "./models";
 
 export const websiteController = new Elysia({
   name: "website",
@@ -35,10 +29,6 @@ export const websiteController = new Elysia({
       status,
       params: { websiteId },
       query: { endTime, region, startTime },
-    }: {
-      status: any;
-      params: GetStatusParams;
-      query: GetStatusQuery;
     }) => {
       const { error, result } = await getWebsiteStatus(
         websiteId,
@@ -63,15 +53,7 @@ export const websiteController = new Elysia({
   )
   .post(
     "/create",
-    async ({
-      status,
-      body: { url },
-      user: { id },
-    }: {
-      status: any;
-      body: CreateWebsiteBody;
-      user: { id: string };
-    }) => {
+    async ({ status, body: { url }, user: { id } }) => {
       const { error, websiteId } = await createWebsiteAndMap(url, id);
 
       if (error) {
@@ -90,15 +72,7 @@ export const websiteController = new Elysia({
   )
   .delete(
     "/delete/:websiteId",
-    async ({
-      params: { websiteId },
-      status,
-      user: { id },
-    }: {
-      params: DeleteWebsiteParams;
-      status: any;
-      user: { id: string };
-    }) => {
+    async ({ params: { websiteId }, status, user: { id } }) => {
       const { error } = await deleteWebsite(id, websiteId);
 
       if (error) {

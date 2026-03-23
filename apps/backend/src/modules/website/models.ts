@@ -41,23 +41,3 @@ export const websiteModel = {
   }),
   getStatusInvalid: t.Literal("Internal Server Error"),
 } as const;
-
-export type CreateWebsiteBody = UnwrapSchema<
-  typeof websiteModel.createWebsiteBody
->;
-export type CreateWebsiteResponse = UnwrapSchema<
-  typeof websiteModel.createWebsiteResponse
->;
-
-export type DeleteWebsiteParams = UnwrapSchema<
-  typeof websiteModel.deleteWebsiteParams
->;
-export type DeleteWebsiteResponse = UnwrapSchema<
-  typeof websiteModel.deleteWebsiteResponse
->;
-
-export type GetStatusParams = UnwrapSchema<typeof websiteModel.getStatusParams>;
-export type GetStatusQuery = UnwrapSchema<typeof websiteModel.getStatusQuery>;
-export type GetStatusResponse = UnwrapSchema<
-  typeof websiteModel.getStatusResponse
->;
