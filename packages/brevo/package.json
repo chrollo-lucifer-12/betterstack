@@ -1,0 +1,20 @@
+{
+  "name": "@repo/mail",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./brevo": "./index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@repo/typescript-config": "*",
+    "@repo/db": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@getbrevo/brevo": "^5.0.1"
+  }
+}

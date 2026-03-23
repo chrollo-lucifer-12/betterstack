@@ -1,0 +1,15 @@
+{
+  "name": "mail-worker",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@repo/typescript-config": "*",
+    "@repo/db": "*",
+    "@repo/mail": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

@@ -39,7 +39,17 @@ const getStatusAndInsert = async (
 ) => {
   const { responseTime, status } = await getStatus(url);
 
-  console.log(url, status);
+  if (status === "DOWN") {
+    await client.rpush(
+      "betterstack:websites:down",
+      JSON.stringify({
+        region,
+        status,
+        responseTime,
+        websiteId,
+      }),
+    );
+  }
 
   await client.rpush(
     "betterstack:websites:results",

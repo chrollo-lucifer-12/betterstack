@@ -1,8 +1,8 @@
 import { db } from "@repo/db";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { brevoInstance } from "./brevo";
 import { env } from "./env";
+import { sendEmail } from "@repo/mail/brevo";
 
 export const auth = betterAuth({
   baseURL: env.BETTER_AUTH_URL,
@@ -17,20 +17,12 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ token, url, user }) => {
-      await brevoInstance.transactionalEmails.sendTransacEmail({
-        htmlContent: `<a href="${url}">Click here to verify your email</a>`,
-        subject: "Email Verification",
-        sender: {
-          email: "sahilpython@gmail.com",
-          name: "sahil",
-        },
-        to: [
-          {
-            email: user.email,
-            name: user.name,
-          },
-        ],
-      });
+      await sendEmail(
+        `<a href="${url}">Click here to verify your email</a>`,
+        user.email,
+        user.name,
+        "Email Verification",
+      );
     },
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
