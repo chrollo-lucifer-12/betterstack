@@ -1,10 +1,10 @@
 {
-  "name": "@repo/mail",
+  "name": "@repo/lib",
   "module": "index.ts",
   "type": "module",
   "private": true,
   "exports": {
-    "./brevo": "./index.ts"
+    ".": "./index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -14,6 +14,6 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@getbrevo/brevo": "^5.0.1"
+    "axios": "^1.13.6"
   }
 }

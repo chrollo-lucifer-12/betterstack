@@ -18,6 +18,7 @@
     "bun-types": "latest",
     "@repo/typescript-config": "*",
     "@repo/db": "*",
-    "@repo/mail": "*"
+    "@repo/mail": "*",
+    "@repo/lib": "*"
   }
 }

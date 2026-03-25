@@ -13,6 +13,5 @@ const app = new Elysia()
     }),
   )
   .use(authController)
-  .use(websiteController);
-
-export default app;
+  .use(websiteController)
+  .listen(env.PORT);

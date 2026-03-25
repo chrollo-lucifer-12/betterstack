@@ -5,7 +5,7 @@ import {
   websiteTicks,
   websiteToUser,
 } from "@repo/db/schema";
-import { catchErrorTyped } from "../../lib/utils";
+import { catchErrorTyped } from "@repo/lib";
 
 export const deleteWebsite = async (userId: string, websiteId: string) => {
   const [err, result] = await catchErrorTyped(
