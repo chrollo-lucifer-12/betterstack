@@ -114,7 +114,6 @@ async function run() {
   }
 
   await tick();
-  setInterval(tick, INTERVAL_MS);
 }
 
 run();
