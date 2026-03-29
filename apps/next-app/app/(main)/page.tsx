@@ -1,11 +1,7 @@
-import UserComponent from "@/components/user-component"
+import LandingPage from "../../components/landing-page"
 
-const LandingPage = () => {
-  return (
-    <div>
-      <UserComponent />
-    </div>
-  )
+const HomePage = () => {
+  return <LandingPage />
 }
 
-export default LandingPage
+export default HomePage
