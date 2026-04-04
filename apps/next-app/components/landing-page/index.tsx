@@ -1,47 +1,61 @@
 "use client"
 
-import { useState } from "react"
-import Spline from "@splinetool/react-spline"
+import { TextFlippingBoard } from "../ui/text-flipping-board"
+import React, { useCallback, useEffect, useState } from "react"
+import dynamic from "next/dynamic"
+
+const MESSAGES: string[] = [
+  "99.999% UPTIME\nOR WE CRY\n- YOUR SERVER",
+  "IS IT UP?\nOR IS IT JUST YOU?",
+  "MONITOR EVERYTHING\nTRUST NOTHING",
+  "DOWNTIME COSTS\nMORE THAN YOU THINK",
+  "WE WATCH YOUR SERVERS\nSO YOU CAN SLEEP",
+  "ALERTS BEFORE\nUSERS COMPLAIN",
+  "YOUR API\nSHOULD NEVER BLINK",
+  "UPTIME IS NOT A FEATURE\nIT'S A PROMISE",
+  "STOP GUESSING\nSTART MONITORING",
+  "IF IT GOES DOWN\nYOU'LL KNOW FIRST",
+]
+
+const MemoBoard = React.memo(TextFlippingBoard)
+
+const Spline = dynamic(() => import("@splinetool/react-spline"), {
+  ssr: false,
+  loading: () => <div className="h-full w-full animate-pulse bg-gray-200" />,
+})
 
 const LandingPage = () => {
-  const [loadedCount, setLoadedCount] = useState(0)
+  const [msgIdx, setMsgIdx] = useState(0)
 
-  const handleLoad = () => {
-    setLoadedCount((prev) => prev + 1)
-  }
+  const next = useCallback(
+    () => setMsgIdx((i) => (i + 1) % MESSAGES.length),
+    []
+  )
 
-  const isLoading = loadedCount < 2
+  useEffect(() => {
+    const id = setInterval(next, 6000)
+    return () => clearInterval(id)
+  }, [next])
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-[#F2F0EF]">
-      <div
-        className={`flex h-full w-full transition-all duration-700 ease-in-out ${
-          isLoading
-            ? "scale-105 opacity-0 blur-sm"
-            : "blur-0 scale-100 opacity-100"
-        }`}
-      >
-        <div className="h-full w-1/2">
-          <Spline
-            scene="https://prod.spline.design/MS8m0LWO4Dj6JoaY/scene.splinecode"
-            onLoad={handleLoad}
-          />
-        </div>
-
-        <div className="h-full w-1/2">
-          <Spline
-            scene="https://prod.spline.design/URVl1PUsKQCcm0BH/scene.splinecode"
-            onLoad={handleLoad}
-          />
-        </div>
+    <div className="relative h-screen w-full overflow-hidden bg-[#F2F0EF] p-4 md:p-6">
+      <div className="flex justify-center">
+        <h1 className="font-phenomena text-3xl md:text-4xl lg:text-5xl">
+          Upwatch
+        </h1>
       </div>
-
       <div
-        className={`absolute inset-0 z-50 flex items-center justify-center bg-black transition-opacity duration-700 ${
-          isLoading ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
+        className={`flex h-full w-full flex-col transition-all duration-700 ease-in-out lg:flex-row`}
       >
-        <div className="h-16 w-16 animate-spin rounded-full border-4 border-white border-t-transparent" />
+        <div className="flex h-full lg:w-1/2">
+          <div className="flex w-full flex-col items-center justify-center gap-6 py-10 md:gap-8 md:py-20">
+            <MemoBoard text={MESSAGES[msgIdx]} />
+          </div>
+        </div>
+
+        <div className="h-[300px] w-full md:h-[400px] lg:h-auto lg:w-1/2">
+          <Spline scene="https://prod.spline.design/URVl1PUsKQCcm0BH/scene.splinecode" />
+        </div>
       </div>
     </div>
   )

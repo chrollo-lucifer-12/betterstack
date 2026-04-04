@@ -1,19 +1,20 @@
-import { Geist, Geist_Mono, Noto_Serif } from "next/font/google"
+import { Geist } from "next/font/google"
+import localFont from "next/font/local"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 
-const notoSerifHeading = Noto_Serif({
-  subsets: ["latin"],
-  variable: "--font-heading",
-})
-
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
+const phenomena = localFont({
+  src: [
+    {
+      path: "../fonts/phenomena/Phenomena-Bold.woff2",
+      weight: "600",
+    },
+  ],
+  variable: "--font-phenomena",
 })
 
 export default function RootLayout({
@@ -25,13 +26,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(
-        "antialiased",
-        fontMono.variable,
-        "font-sans",
-        geist.variable,
-        notoSerifHeading.variable
-      )}
+      className={cn("antialiased", geist.className, phenomena.variable)}
     >
       <body>
         <ThemeProvider forcedTheme="light">{children}</ThemeProvider>
